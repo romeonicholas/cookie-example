@@ -19,3 +19,13 @@ def cookies():
     )
 
     return render_template("cookies/index.html", cookies_pagination=cookies_pagination)
+
+
+@blueprint.route("/run-seed")
+def run_seed():
+    if not Cookie.query.filter_by(slug="chocolate-chip").first():
+        import app.scripts.seed
+
+        return "Database seed completed!"
+    else:
+        return "Nothing to run."
