@@ -1,0 +1,9 @@
+{% extends 'base.html' %} {% block title %} {{cookie.name}} {% endblock %} {%
+block body %}
+<h1>{{ cookie.name }}</h1>
+<p>{{ cookie.price }}</p>
+
+<footer>
+  <a href="/cookies">Back to all cookies</a>
+</footer>
+{% endblock %}
