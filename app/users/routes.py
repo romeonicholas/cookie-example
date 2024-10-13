@@ -55,6 +55,6 @@ def post_login():
 
 
 @blueprint.get("/logout")
-def get_logout():
+def logout():
     logout_user()
     return redirect(url_for("simple_pages.index"))
