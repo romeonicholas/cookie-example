@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, request, url_for, redirect
+from flask import Blueprint, render_template, request, url_for, redirect, current_app
 from flask_login import login_user, logout_user
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 from app.users.models import User
+from .services.user_services import create_user, validate_new_user
 
 blueprint = Blueprint("users", __name__)
 
@@ -14,22 +15,17 @@ def get_register():
 @blueprint.post("/register")
 def post_register():
     try:
-        if request.form.get("password") != request.form.get("password_confirmation"):
-            raise ValueError("Passwords do not match")
-        elif User.query.filter_by(email=request.form.get("email")).first():
-            raise ValueError("User already exists")
-
-        user = User(
-            email=request.form.get("email"),
-            password=generate_password_hash(request.form.get("password")),
-        )
-        user.save()
-        login_user(user)
+        validate_new_user(request.form)
+        login_user(create_user(request.form))
 
         return redirect(url_for("cookies.cookies"))
     except Exception as error_message:
-        error = error_message or "An error occurred while creating the user"
-        return render_template("users/register.html", error=error)
+        current_app.logger.info(f"Error creating a user: {error_message}")
+
+        return render_template(
+            "users/register.html",
+            error=error_message or "An error occurred while creating the user",
+        )
 
 
 @blueprint.get("/login")
