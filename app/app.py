@@ -1,6 +1,6 @@
 from flask import Flask
 from app.extensions.database import db, migrate
-from . import cookies, simple_pages, orders, api
+from . import cookies, simple_pages, orders, api, users
 
 
 def create_app() -> Flask:
@@ -18,6 +18,7 @@ def register_blueprints(app: Flask) -> None:
     app.register_blueprint(simple_pages.routes.blueprint)
     app.register_blueprint(orders.routes.blueprint)
     app.register_blueprint(api.routes.blueprint)
+    app.register_blueprint(users.routes.blueprint)
 
 
 def register_extensions(app: Flask) -> None:
