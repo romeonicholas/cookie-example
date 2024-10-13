@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, send_file
+from flask import Blueprint, render_template, redirect, url_for, send_file, current_app
 
 blueprint = Blueprint("simple_pages", __name__)
 
