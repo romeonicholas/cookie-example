@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, url_for, redirect
+from flask_login import login_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.users.models import User
 
@@ -23,6 +24,7 @@ def post_register():
             password=generate_password_hash(request.form.get("password")),
         )
         user.save()
+        login_user(user)
 
         return redirect(url_for("cookies.cookies"))
     except Exception as error_message:
@@ -44,6 +46,7 @@ def post_login():
         elif not check_password_hash(user.password, request.form.get("password")):
             raise ValueError("Password is incorrect")
 
+        login_user(user)
         return redirect(url_for("cookies.cookies"))
 
     except Exception as error_message:

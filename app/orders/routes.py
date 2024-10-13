@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, current_app
+from flask_login import login_required
 from app.cookies.models import Cookie
 from .services.create_order import create_order
 
@@ -6,6 +7,7 @@ blueprint = Blueprint("orders", __name__)
 
 
 @blueprint.get("/orders/checkout")
+@login_required
 def get_checkout():
     cookies = Cookie.query.all()
     return render_template("orders/new.html", cookies=cookies)
