@@ -1,5 +1,6 @@
 from flask import Flask
 from app.extensions.database import db, migrate
+from app.extensions.authentication import login_manager
 from . import cookies, simple_pages, orders, api, users
 
 
@@ -24,3 +25,4 @@ def register_blueprints(app: Flask) -> None:
 def register_extensions(app: Flask) -> None:
     db.init_app(app)
     migrate.init_app(app, db, compare_type=True)
+    login_manager.init_app(app)
