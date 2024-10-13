@@ -13,6 +13,10 @@ block body %}
     <input type="password" name="password" id="password" required />
   </div>
 
+  {% if error %}
+  <p style="color: tomato">{{ error }}</p>
+  {% endif %}
+
   <input type="submit" value="Login" />
 </form>
 {% endblock %}

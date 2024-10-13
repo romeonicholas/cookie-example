@@ -23,6 +23,10 @@
     />
   </div>
 
+  {% if error %}
+  <p style="color: tomato">{{ error }}</p>
+  {% endif %}
+
   <input type="submit" value="Sign Up" />
 </form>
 {% endblock %}
