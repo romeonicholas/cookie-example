@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, url_for, redirect
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.users.models import User
 
@@ -24,7 +24,7 @@ def post_register():
         )
         user.save()
 
-        return "User created"
+        return redirect(url_for("cookies.cookies"))
     except Exception as error_message:
         error = error_message or "An error occurred while creating the user"
         return render_template("users/register.html", error=error)
