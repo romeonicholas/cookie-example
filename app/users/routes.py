@@ -32,7 +32,18 @@ def post_register():
 
 @blueprint.get("/login")
 def get_login():
-    return render_template("users/login.html")
+    try:
+        user = User.query.filter_by(email=request.form.get("email")).first()
+        if not user:
+            raise ValueError("User not found")
+        elif not check_password_hash(user.password, request.form.get("password")):
+            raise ValueError("Password is incorrect")
+
+        return redirect(url_for("cookies.cookies"))
+
+    except Exception as error_message:
+        error = error_message or "An error occurred while creating the user"
+        return render_template("users/login.html", error=error)
 
 
 @blueprint.post("/login")
